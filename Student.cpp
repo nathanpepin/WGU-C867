@@ -13,27 +13,25 @@ Student::Student(string studentID, string firstName, string lastName, string ema
     setEmail(email);
     setAge(age);
     setDaysToComplete(daysTC1, daysTC2, daysTC3);
-    //degree = Degree::NONE;
 };
 
 void Student::print() {
-    cout << "\n\nStudent Information\n";
-    cout << "--------------------------\n";
-    cout << "Student ID: " << getStudentID() << "\n";
-    cout << "First Name: " << getFirstName() << "\n";
-    cout << "Last Name: " << getLastName() << "\n";
-    cout << "Email: " << getEmail() << "\n";
-    cout << "Age: " << getAge() << "\n";
-    cout << "Day To Complete: " << getDaysToComplete(0) << ", " << getDaysToComplete(1) << ", " << getDaysToComplete(2) << "\n";
+    cout << "\nStudent ID: " << getStudentID() << "\t";
+    cout << "First Name: " << getFirstName() << "\t";
+    cout << "Last Name: " << getLastName() << "\t";
+    cout << "Email: " << getEmail() << "\t";
+    cout << "Age: " << getAge() << "\t";
+    cout << "Day To Complete: " << getDaysToComplete(0) << ", " << getDaysToComplete(1) << ", " << getDaysToComplete(2) << "\t";
     cout << "Degree: " << printDegree();
 }
 
+//Converts the degree into a string to allow for easier printing
 string Student::printDegree() {
-    switch (Student::getDegree()) {
+    switch (getDegree()) {
         case Degree::SECURITY: return "SECURITY";
         case Degree::NETWORK: return "NETWORK";
         case Degree::SOFTWARE: return "SOFTWARE";
-        case Degree::NONE: return "NONE";
+        defaul: cout << "Error: Degree not found";
     }
 }
 
@@ -64,8 +62,7 @@ int Student::getDaysToComplete(int day) {
 }
 
 Degree Student::getDegree() {
-    return Degree::NONE;
-};
+}
 
 //SETTERS
 
@@ -94,10 +91,6 @@ void Student::setDaysToComplete(int iDays1, int iDays2, int iDays3) {
     daysToComplete[1] = iDays2;
     daysToComplete[2] = iDays3;
 }
-
-//void Student::setDegree(Degree iDegree) {
-//    degree = iDegree;
-//}
 
 Student::~Student() {
 }

@@ -8,11 +8,15 @@
 
 using namespace std;
 
+#define MAX_NUMBER_OF_STUDENTS 100
+
 class Roster
 {
 
 private:
-    vector<Student> classRosterArray;
+    //A max of 100 students is somewhat arbitrary, but at the same time limiting the array to 5 doesn't make sense
+    //Using a vector type could help make the program more dynamic, but the assignment calls for an array with pointers
+    Student* classRosterArray[MAX_NUMBER_OF_STUDENTS];
     int classSize;
 
 public:
@@ -30,7 +34,9 @@ public:
 
     void printInvalidEmails();
 
-    void printByDegreeProgram(string degreeProgram);
+    void printByDegreeProgram(Degree degreeProgram);
+    
+    ~Roster();
 };
 
 #endif /* ROSTER_H */

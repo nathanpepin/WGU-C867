@@ -11,17 +11,20 @@ Roster::Roster() {
     classSize = 0;
 }
 
-void Roster::add(string studentID, string firstName,
-        string lastName, string emailAddress, int age, int daysInCourse1, int daysInCourse2, int daysInCourse3, Degree degree) {
-    classSize++;
+void Roster::add(string studentID, string firstName, string lastName, string emailAddress, int age, int daysInCourse1, int daysInCourse2, int daysInCourse3, Degree degree) {
+    //Ensures that there is never an array out of bounds error
+    if (classSize > MAX_NUMBER_OF_STUDENTS - 1) {
+        cout << "Error: The system limits the max number of students to be created to 100. Please contact the system adminstrator";
+        return;
+    }
+    
     if (degree == Degree::SECURITY) {
-        classRosterArray.push_back(SecurityStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3));
+        classRosterArray[classSize++] = new SecurityStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3, degree);
     } else if (degree == Degree::NETWORK) {
-        classRosterArray.push_back(NetworkStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3));
+        classRosterArray[classSize++] = new NetworkStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3, degree);
     } else if (degree == Degree::SOFTWARE) {
-        classRosterArray.push_back(SoftwareStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3));
+        classRosterArray[classSize++] = new SoftwareStudent(studentID, firstName, lastName, emailAddress, age, daysInCourse1, daysInCourse2, daysInCourse3, degree);
     } else {
-        classSize--;
         cout << "Error: Degree type note found. Please re-enter with available degrees: SECURURITY, NETWORK, or SOFTWARE";
     }
 }
@@ -37,10 +40,15 @@ void Roster::remove(string studentID) {
 
     int indexToRemove = -1;
     for (int i = 0; i < classSize; i++) {
-        if (!classRosterArray[i].getStudentID().compare(studentID)) {
+        if (classRosterArray[i] == nullptr) {
+            cout << "\nError: Student ID entered not found\n\n";
+            return;
+        }
+        
+        if (!classRosterArray[i]->getStudentID().compare(studentID)) {
             indexToRemove = i;
             classSize--;
-            classRosterArray.erase(classRosterArray.begin() + i);
+            classRosterArray[i] = nullptr;
             break;
         }
     }
@@ -50,7 +58,6 @@ void Roster::remove(string studentID) {
     } else {
         cout << "\nStudent " << studentID << " removed\n";
     }
-    cout << "\n";
 }
 
 void Roster::printAll() {
@@ -58,7 +65,10 @@ void Roster::printAll() {
     cout << "Printing all students\n";
     cout << "----------------------------------------------------";
     for (int i = 0; i < classSize; i++) {
-        classRosterArray[i].print();
+        if (classRosterArray[i] == nullptr) {
+            break;
+        }
+        classRosterArray[i]->print();
     }
     cout << "\n";
 }
@@ -70,7 +80,10 @@ void Roster::printAverageDaysInCourse(string studentID) {
     //Find student with particular ID
     int indexOfStudent = -1;
     for (int i = 0; i < classSize; i++) {
-        if (!classRosterArray[i].getStudentID().compare(studentID)) {
+        if (classRosterArray[i] == nullptr) {
+            break;
+        }
+        if (!classRosterArray[i]->getStudentID().compare(studentID)) {
             indexOfStudent = i;
             break;
         }
@@ -86,7 +99,7 @@ void Roster::printAverageDaysInCourse(string studentID) {
     double average = 0.0;
     int totalDays = 3;
     for (int j = 0; j < totalDays; j++) {
-        average += classRosterArray[indexOfStudent].getDaysToComplete(j);
+        average += classRosterArray[indexOfStudent]->getDaysToComplete(j);
     }
     cout << "\nAverage: " << average / totalDays << "\n";
 }
@@ -120,29 +133,34 @@ void Roster::printInvalidEmails() {
     cout << "Printing invalid emails: \n";
     cout << "----------------------------------------------------\n";
     for (int i = 0; i < classSize; i++) {
-        if (checkIfInvalidEmail(classRosterArray[i].getEmail())) {
-            cout << "Student ID: " << classRosterArray[i].getStudentID() << " Email: " << classRosterArray[i].getEmail() << "\n";
+        if (classRosterArray[i] == nullptr) {
+            break;
+        }
+        if (checkIfInvalidEmail(classRosterArray[i]->getEmail())) {
+            cout << "Student ID: " << classRosterArray[i]->getStudentID() << " Email: " << classRosterArray[i]->getEmail() << "\n";
         }
     }
 }
 
-void Roster::printByDegreeProgram(string degreeProgram) {
+void Roster::printByDegreeProgram(Degree degreeProgram) {
     //Header
     cout << "\n----------------------------------------------------\n";
-    cout << "Printing students by degree program: " << degreeProgram << "\n";
+    cout << "Printing students by degree program\n";
     cout << "----------------------------------------------------";
-
-    //Error checking
-    if (degreeProgram.compare("SECURITY") && degreeProgram.compare("NETWORK") && degreeProgram.compare("SOFTWARE")) {
-        cout << "Error: Degree program not found";
-    }
 
     //Printing
     for (int i = 0; i < classSize; i++) {
-        /*if (!classRosterArray[i].getDegreeType().compare(degreeProgram))
-        {
-            classRosterArray[i].print();
-        }*/
+        if (classRosterArray[i] == nullptr) {
+            break;
+        }
+        if (classRosterArray[i]->getDegree() == degreeProgram) {
+            classRosterArray[i]->print();
+        }
     }
     cout << "\n";
+}
+
+Roster::~Roster() {
+    delete *classRosterArray;
+    cout << "Roster object deconstructed";
 }

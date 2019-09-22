@@ -2,7 +2,7 @@
 #define DEGREE_H
 
 enum class Degree: int {
-    SECURITY, NETWORK, SOFTWARE, NONE
+    SECURITY, NETWORK, SOFTWARE
 };
 
 #endif /* DEGREE_H */

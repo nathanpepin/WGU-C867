@@ -8,7 +8,7 @@ using namespace std;
 
 class SecurityStudent : public Student {
 public:
-    SecurityStudent(string studentID, string firstName, string lastName, string email, int age, int daysTC1, int daysTC2, int daysTC3);
+    SecurityStudent(string studentID, string firstName, string lastName, string email, int age, int daysTC1, int daysTC2, int daysTC3, Degree iDegree);
     Degree getDegree() override;
 };
 

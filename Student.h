@@ -10,7 +10,7 @@ private:
     string studentID, firstName, lastName, email;
     int age;
     int daysToComplete[3];
-    //Degree degree;
+    Degree degree;
 
 public:
     Student(string studentID, string firstName, string lastName, string email, int age, int daysTC1, int daysTC2, int daysTC3);
@@ -34,9 +34,9 @@ public:
     void setEmail(string iEmail);
     void setAge(int iAge);
     void setDaysToComplete(int iDays1, int iDays2, int iDays3);
-    //void setDegree(Degree iDegree);
+    void setDegree(Degree iDegree);
 
-    virtual ~Student();
+    ~Student();
 };
 
 #endif /* STUDENT_H */
