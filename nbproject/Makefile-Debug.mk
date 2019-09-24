@@ -39,8 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Roster.o \
 	${OBJECTDIR}/SecurityStudent.o \
 	${OBJECTDIR}/SoftwareStudent.o \
-	${OBJECTDIR}/Student.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/Student.o
 
 
 # C Compiler Flags
@@ -91,11 +90,6 @@ ${OBJECTDIR}/Student.o: Student.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Student.o Student.cpp
-
-${OBJECTDIR}/main.o: main.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
